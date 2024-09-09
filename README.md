@@ -37,7 +37,7 @@ This project involves using the Jave Framework Springboot to handle serverside r
    ```bash
    java -jar trading-app-backend/target/Trading-App-0.0.1-SNAPSHOT.jar
 
-3. **Run the React App**
+3. **Run the React App (On a different tab in the terminal/command prompt)**
    ```bash
    cd trading-app-frontend
    npm install
