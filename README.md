@@ -40,6 +40,7 @@ This project involves using the Jave Framework Springboot to handle serverside r
 3. **Run the React App**
    ```bash
    cd trading-app-frontend
+   npm install
    npm start
    
 
