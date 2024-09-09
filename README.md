@@ -47,9 +47,6 @@ This project involves using the Jave Framework Springboot to handle serverside r
 
    Provide details on how to use the application, including examples or commands for common actions.
    
-   ```markdown
-   ### Usage 📚
-   
    Once the application is running, you can access the following features:
    
    - **User Authentication**: Navigate to `/login` or `/signup` to access user authentication features.
