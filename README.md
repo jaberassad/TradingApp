@@ -29,7 +29,7 @@ This project involves using the Jave Framework Springboot to handle serverside r
 1. **Clone the Repository** 
 
    ```bash
-   git clone git clone https://github.com/jaberassad/TradingApp.git
+   git clone https://github.com/jaberassad/TradingApp.git
    cd TradingApp
    
 
