@@ -37,15 +37,10 @@ This project involves using the Jave Framework Springboot to handle serverside r
    ```bash
    java -jar trading-app-backend/target/Trading-App-0.0.1-SNAPSHOT.jar
 
-   ***Note: If you encounter an error indicating that port 8081 is already in use, you can resolve this issue by checking which process is using the port and terminating it. Use the following commands:***
-   
+3. **Run the React App**
    ```bash
-   lsof -i :8081
-
-   ***Copy the PID that is returned:**
-   
-   ```bash
-   kill -9 <PID>
+   cd trading-app-frontend
+   npm start
    
 
 ### Neural Network Architecture
