@@ -26,6 +26,7 @@ This project involves using the Jave Framework Springboot to handle serverside r
 
 ### Installation 🔧
 
+####Please make sure both the spring boot app and react app are running####
 1. **Clone the Repository** 
 
    ```bash
