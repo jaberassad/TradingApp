@@ -14,7 +14,7 @@ This project involves using the Jave Framework Springboot to handle serverside r
 - Real-Time Updates ⏱️: Keeps users updated with the latest stock prices and portfolio value using real-time data.
 - Error Handling ⚠️: Robust error handling and user-friendly messages to guide users in case of incorrect inputs or failed transactions.
 - REST API Integration 🔌: Supports RESTful services for managing trading requests, authentication, and fetching data from external sources.
-- AWS EC2 Deployment ☁️: The React frontend, Spring Boot API, and database are all deployed using AWS EC2, ensuring scalability and availability.
+- AWS EC2 Deployment ☁️: The React frontend, Spring Boot API, and database are all deployed using AWS EC2, ensuring scalability and availability but not running due to cost.
 
 ## Getting Started 🚀
 
