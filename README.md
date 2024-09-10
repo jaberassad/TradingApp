@@ -20,7 +20,7 @@ This project involves using the Jave Framework Springboot to handle serverside r
 
 ### Prerequisites 📦
 - JDK 17
-- Node JS
+- Git
 - Maven
 - Node.js & npm
 
