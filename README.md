@@ -40,13 +40,13 @@ Please make sure both the spring boot app and react app are running
    
 
 3. **Run the SpringBoot App and the React App Simultaneously**
-   Mac or Linux
+   **Mac or Linux**
    ```bash
-   java -jar ../trading-app-backend/target/Trading-App-0.0.1-SNAPSHOT.jar & npm start ```
+   java -jar ../trading-app-backend/target/Trading-App-0.0.1-SNAPSHOT.jar & npm start
 
-   Windows
+   **Windows**
    ```bash
-   start java -jar ..\trading-app-backend\target\Trading-App-0.0.1-SNAPSHOT.jar & npm start ```
+   start java -jar ..\trading-app-backend\target\Trading-App-0.0.1-SNAPSHOT.jar & npm start
    
 
 ### 2. **Usage 📚**
