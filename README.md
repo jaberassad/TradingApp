@@ -32,17 +32,16 @@ Please make sure both the spring boot app and react app are running
    ```bash
    git clone https://github.com/jaberassad/TradingApp.git
    cd TradingApp
-   
 
-2. **Run the SpringBoot App**
-   ```bash
-   java -jar trading-app-backend/target/Trading-App-0.0.1-SNAPSHOT.jar
-
-3. **Run the React App (On a different tab in the terminal/command prompt)**
+2. **Install necessary React dependencies**
    ```bash
    cd trading-app-frontend
    npm install
-   npm start
+   
+
+3. **Run the SpringBoot App and the React App Simultaneously**
+   ```bash
+   java -jar ../trading-app-backend/target/Trading-App-0.0.1-SNAPSHOT.jar & npm start
 
 ### 2. **Usage 📚**
 
