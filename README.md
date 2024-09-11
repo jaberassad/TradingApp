@@ -3,6 +3,7 @@
 ## Overview 📝
 
 This project involves using the Jave Framework Springboot to handle serverside requests such as share trading as well as user authentification. On the front end, a JavaScript framework is used to display all relevant information dynamically, ensuring a smooth and interactive user experience.
+The link to our website is http://16.171.124.214:3000/
 
 ## Features 
 
@@ -14,7 +15,7 @@ This project involves using the Jave Framework Springboot to handle serverside r
 - Real-Time Updates ⏱️: Keeps users updated with the latest stock prices and portfolio value using real-time data.
 - Error Handling ⚠️: Robust error handling and user-friendly messages to guide users in case of incorrect inputs or failed transactions.
 - REST API Integration 🔌: Supports RESTful services for managing trading requests, authentication, and fetching data from external sources.
-- AWS EC2 Deployment ☁️: The React frontend, Spring Boot API, and database are all deployed using AWS EC2, ensuring scalability and availability but not running due to cost.
+- AWS EC2 Deployment ☁️: The React frontend, Spring Boot API, and database are all deployed using AWS EC2, ensuring scalability and availability.
 
 ## Getting Started 🚀
 
