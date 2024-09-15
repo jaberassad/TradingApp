@@ -3,7 +3,6 @@
 ## Overview 📝
 
 This project involves using the Jave Framework Springboot to handle serverside requests such as share trading as well as user authentification. On the front end, a JavaScript framework is used to display all relevant information dynamically, ensuring a smooth and interactive user experience.
-The link to our website is http://16.171.124.214:3000/ . Note: It only runs during weekdays from 9am to 7pm (UK Time).
 
 ## Features 
 
