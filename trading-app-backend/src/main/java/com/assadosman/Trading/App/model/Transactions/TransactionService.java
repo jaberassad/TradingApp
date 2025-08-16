@@ -104,14 +104,12 @@ public class TransactionService {
         List<Transaction> transactionsOfAssetByUser = findAllByUserIDAndAssetName(userID, assetISIN);
         Double numOfAssetsOwned = 0d;
 
-        System.out.println("yo");
 
         for(Transaction transaction: transactionsOfAssetByUser){
             // We get the number of assets bought/sold in each transaction then sum this number up to see how many
             // assets the user currently owns
             numOfAssetsOwned += transaction.getNumOfAssets();
         }
-        System.out.println(numOfAssetsOwned);
 
         return numOfAssetsOwned >= numOfAssets;
     }

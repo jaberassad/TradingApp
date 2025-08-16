@@ -1,5 +1,6 @@
 package com.assadosman.Trading.App;
 
+import com.assadosman.Trading.App.model.Assets.AssetEntity;
 import com.assadosman.Trading.App.model.Transactions.Transaction;
 import com.assadosman.Trading.App.model.user.User;
 
@@ -16,6 +17,14 @@ public class testDataUtil {
                 .firstName("Jaber")
                 .hashedPassword("assad1234")
                 .balance(50000.0)
+                .build();
+    }
+
+    public static AssetEntity createEntity(){
+        return AssetEntity.builder()
+                .prices("")
+                .marketCap(0)
+                .name("AAPL")
                 .build();
     }
 

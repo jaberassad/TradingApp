@@ -7,35 +7,44 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "http://16.171.124.214:3000")
 public class AssetController {
 
-    private AssetRepo assetRepo;
-    private RestTemplate restTemplate;
 
-    public AssetController(AssetRepo assetRepo, RestTemplate restTemplate) {
-        this.assetRepo = assetRepo;
-        this.restTemplate = restTemplate;
+    private AssetsService assetService;
+
+    public AssetController(AssetsService assetService) {
+        this.assetService = assetService;
     }
 
     @GetMapping(path="/api/assets/{name}")
     public ResponseEntity<AssetEntity> respondGetRequest(@PathVariable("name") String name){
-        List<Double> prices;
+        Response response;
         try{
-            prices = fetchDataFromApi(name);
+            response = assetService.fetchDataFromApi(name);
         }catch(Exception e){
-            prices = new ArrayList<>();
+            response = new Response(new ArrayList<>(), null);
         }
-        System.out.println(name);
-        Optional<AssetEntity> optionalAsset = assetRepo.findById(name);
+
+        ArrayList<String> prices = new ArrayList<>();
+        ArrayList<String> dates = new ArrayList<>();
+
+        for(PriceDay day : response.getData()){
+            prices.add(day.getOpen());
+            dates.add("\""+day.getDate().substring(0, 10)+"\"");
+        }
+
+
+        Optional<AssetEntity> optionalAsset = assetService.findByID(name);
         if (optionalAsset.isPresent()){
-            assetRepo.save(AssetEntity.builder()
+            assetService.save(AssetEntity.builder()
                     .prices(prices.toString())
+                    .dates(dates.toString())
                     .marketCap(0)
                     .name(name)
                     .build());
@@ -43,23 +52,12 @@ public class AssetController {
         }else{
             AssetEntity asset = AssetEntity.builder()
                     .prices(prices.toString())
+                    .dates(dates.toString())
                     .marketCap(0)
                     .name(name)
                     .build();
-            assetRepo.save(asset);
+            assetService.save(asset);
             return new ResponseEntity<>(asset, HttpStatus.CREATED);
         }
-    }
-
-    public List<Double> fetchDataFromApi(String name){
-        String apiUrl = "http://api.marketstack.com/v1/eod?access_key=a154987bdb72eb3a9315cba8015f210b&symbols="+name;
-        Response response= restTemplate.getForObject(apiUrl, Response.class);
-        List<PriceDay> data = response.getData();
-        List<Double> prices = new ArrayList<>();
-        for(PriceDay day: data){
-            prices.add(Double.parseDouble(day.getOpen()));
-            prices.add(Double.parseDouble(day.getClose()));
-        }
-        return prices;
     }
 }

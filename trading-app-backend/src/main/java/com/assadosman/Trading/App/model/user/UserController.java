@@ -34,7 +34,6 @@ public class UserController {
 
     @PostMapping(path = "signup")
     public ResponseEntity<User> addUser(@Valid @RequestBody User user){
-        System.out.println(user);
 
         userService.addNewUser(user);
 

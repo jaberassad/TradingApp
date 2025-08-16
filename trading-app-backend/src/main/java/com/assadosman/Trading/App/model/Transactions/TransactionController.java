@@ -11,7 +11,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path="api/transaction")
-@CrossOrigin(origins = "http://16.171.124.214:3000")
 public class TransactionController {
     private final TransactionService transactionService;
 
@@ -27,8 +26,6 @@ public class TransactionController {
         }
 
         transactionService.buyingTransaction(transaction);
-        System.out.println(transaction.getAssetName());
-        System.out.println(transaction.getNumOfAssets());
 
         return new ResponseEntity<>("Successfully bought your asset('s)", HttpStatus.OK);
     }

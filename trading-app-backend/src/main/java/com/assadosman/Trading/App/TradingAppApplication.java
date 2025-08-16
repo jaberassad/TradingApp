@@ -15,18 +15,4 @@ public class TradingAppApplication {
 		Dotenv dotenv = Dotenv.load();
 		SpringApplication.run(TradingAppApplication.class, args);
 	}
-
-	@Configuration
-	public static class WebConfig implements WebMvcConfigurer {
-
-		@Override
-		public void addCorsMappings(CorsRegistry registry) {
-			// Allow CORS for all paths and allow requests from specific origins
-			registry.addMapping("/**")
-					.allowedOrigins("http://yourfrontend.com")  // Replace with your frontend's URL
-					.allowedMethods("GET", "POST", "PUT", "DELETE")  // Allow these HTTP methods
-					.allowedHeaders("*")  // Allow all headers
-					.allowCredentials(true);  // Allow sending of credentials (cookies, etc.)
-		}
-	}
 }
