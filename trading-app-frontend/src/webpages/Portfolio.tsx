@@ -2,6 +2,7 @@ import React, { FC, useEffect, useRef, useState } from "react";
 import SummedTransaction from "../interfaces/SummedTransaction";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import Transaction from "../interfaces/Transaction";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -21,34 +22,26 @@ const Portfolio: FC<PortfolioProps> = (props) => {
   const [oldChartElementIndex, setOldChartElementIndex] = useState<number>(-1);
   const [loadingProps, setLoadingProps] = useState<boolean>(true);
   const [backgroundColors, setBackgroundColors] = useState<string[]>([]);
+  const [ownedAssets, setOwnedAssets] = useState<SummedTransaction[]>([]);
+  const [stockValues, setStockValues] = useState<number[]>([]);
+  const [stockLabels, setStockLabels] = useState<String[]>([]);
   const listItemRefs = useRef<Map<number, HTMLLIElement>>(new Map());
 
-  useEffect(() => {
-    if (props.summedElements.length !== 0) {
-      setLoadingProps(false);
+  const getCurrentPrice = async (assetName: String): Promise<number> => {
+    setLoadingProps(true);
+    let response = await fetch(`${process.env.REACT_APP_API_URL}api/assets/${assetName}`);
+    const data = await response.json()
 
-      if (backgroundColors.length === 0) {
-        const summedElementsAndBalance: any[] = props.summedElements.map(
-          (index) => Math.random()
-        );
-        summedElementsAndBalance.push(Math.random());
+    setLoadingProps(false); 
 
-        setBackgroundColors(
-          summedElementsAndBalance.map((_, index) => getRandomColor())
-        );
-      }
+    if (data.prices && data.prices !== "[]") {
+        data.prices = JSON.parse(data.prices)
+        return data.prices[0];
+    }else{
+      return 100 * Math.random(); 
     }
-  }, [props.summedElements, loadingProps]);
-
-  if(props.summedElements.length<1){
-    return <></>
-  }
-
-  const getCurrentPrice = (assetName: String) => {
-    // We need to implement a live price getter however due to restricted api calls we are using a fixed value for now. Will be updated in the future.
-    return 100 * Math.random();
   };
-
+  
   const getRandomColor = (): string => {
     const letters = "0123456789ABCDEF";
     let color = "#";
@@ -57,6 +50,18 @@ const Portfolio: FC<PortfolioProps> = (props) => {
     }
     return color;
   };
+
+  useEffect(() => {
+    if (!props.summedElements || props.summedElements.length === 0) return;
+
+    const filtered = props.summedElements.filter(i => i.numOfAssets > 0);
+    setOwnedAssets(filtered);  // still update state if needed for rendering
+    prepareData(filtered);      // pass the filtered array directly
+  }, [props.summedElements]);
+
+
+  if(ownedAssets.length==0) return <></>
+
 
   const onHover = (e: any, item: any) => {
     setOldChartElementIndex(newChartElementIndex);
@@ -80,7 +85,6 @@ const Portfolio: FC<PortfolioProps> = (props) => {
   const higlightPortfolioElement = (key: number, leave: boolean) => {
     const listItem = listItemRefs.current.get(key);
     const classes = "portfolio-li-hover";
-    // console.log(listItem);
     if (leave) {
       listItem?.classList.remove(classes);
     } else {
@@ -88,21 +92,29 @@ const Portfolio: FC<PortfolioProps> = (props) => {
     }
   };
 
+  
   // Calculate the value of each stock
-  const stockValues = props.summedElements.map((summedTransaction) => {
-    const { numOfAssets, assetName } = summedTransaction;
-    const currentPrice = getCurrentPrice(assetName);
-    return numOfAssets * currentPrice;
-  });
+  async function prepareData(elements: typeof ownedAssets) {
+    setLoadingProps(true);
 
-  stockValues.push(props.balance);
+    const values = await Promise.all(
+      elements.map(async ({ numOfAssets, assetName }) => {
+        const currentPrice = await getCurrentPrice(assetName);
+        backgroundColors.push(getRandomColor())
+        return numOfAssets * currentPrice;
+      })
+    );
 
-  const stockLabels = props.summedElements.map((summedTransaction) => {
-    const { numOfAssets, assetName } = summedTransaction;
-    return `${assetName} (${numOfAssets} stock${numOfAssets !== 1 ? "s" : ""})`;
-  });
+    setStockValues(values);
+    setStockLabels(
+      elements.map(({ numOfAssets, assetName }) =>
+        `${assetName} (${numOfAssets} stock${numOfAssets !== 1 ? "s" : ""})`
+      )
+    );
 
-  stockLabels.push("Balance ($USD)");
+    setLoadingProps(false);
+  }
+
 
   // Prepare data for the Donut chart
   const data = {
@@ -140,16 +152,19 @@ const Portfolio: FC<PortfolioProps> = (props) => {
     return <div>loading</div>;
   }
 
+
   return (
     <div className="portfolio">
       <h2 className="mb-4 text-xl">Portfolio</h2>
       <div className="flex flex-row">
-        <ul>
-          {props.summedElements.map((summedTransaction, index) => {
+        {stockValues.length>0 && <ul> 
+          {ownedAssets.map((summedTransaction, index) => {
             if (summedTransaction.numOfAssets === 0) {
               return;
             }
-            const currPrice = getCurrentPrice(summedTransaction.assetName)
+            
+            console.log(stockValues)
+            const currPrice = stockValues[index];
 
             return (
               <li
@@ -162,7 +177,7 @@ const Portfolio: FC<PortfolioProps> = (props) => {
                   }
                 }}
               >
-                <b>
+                <b> 
                   {summedTransaction.numOfAssets} stock
                   {summedTransaction.numOfAssets != 1 ? "s" : ""}
                 </b>{" "}
@@ -172,18 +187,18 @@ const Portfolio: FC<PortfolioProps> = (props) => {
                 </span>{" "}
                 at{" "}
                 <span className="text-stone-600">
-                  ${currPrice.toFixed(2)}
+                  ${currPrice}
                 </span>{" "}
                 a share, for a total value of{" "}
                 <span className=" text-green-900">
                   $
-                  {(currPrice * summedTransaction.numOfAssets).toFixed(2)}
+                  {(currPrice * summedTransaction.numOfAssets)}
                 </span>
                 .
               </li>
             );
           })}
-        </ul>
+        </ul>}
 
         <div className="w-1/2 h-96">
           <Doughnut data={data} options={options} />

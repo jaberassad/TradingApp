@@ -28,7 +28,6 @@ const Login = () => {
   const handleSubmit = () => {
     for (const ref of references) {
       if (ref.current?.value === undefined || ref.current?.value === "") {
-        console.log("A field was left empty!");
         return;
       }
     }
@@ -37,9 +36,7 @@ const Login = () => {
 
     fetch(`${process.env.REACT_APP_API_URL}api/user/${email}`)
       .then((response) => {
-        console.log(response)
         if (response.status === 500) {
-          console.log("invalid email");
           return null;
         } else if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -53,7 +50,6 @@ const Login = () => {
 
         ComparePasswords(inputtedPassword, user.hashedPassword)
           .then((match) => {
-            console.log(inputtedPassword, user.hashedPassword)
             if (match) {
               sessionStorage.setItem("active", JSON.stringify(true));
               sessionStorage.setItem("user", JSON.stringify(user));

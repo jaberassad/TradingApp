@@ -70,8 +70,6 @@ const Profile = () => {
 
         const allTransactionsSummed: SummedTransaction[] = [];
 
-        console.log(allTransactionsSummed);
-
         allTransactionsSummedMap.forEach((numOfAssets, assetName) => {
           allTransactionsSummed.push({
             assetName: assetName,
@@ -79,13 +77,10 @@ const Profile = () => {
           });
         });
 
-        console.log(allTransactionsSummed);
 
         setSummedTransactions(allTransactionsSummed);
         transactionsJSON.reverse();
         setTransactions(transactionsJSON);
-
-        console.log(summedTransactions);
       })
       .catch((error) => {
         console.error("Error while fetching data: " + error);
@@ -93,8 +88,6 @@ const Profile = () => {
   };
 
   const getTransactionsElements = (transactions: Transaction[] | null) => {
-    console.log("Transcations:", transactions);
-
     if (transactions) {
       return (
         <ul className="transactions-list">
@@ -133,8 +126,6 @@ const Profile = () => {
   const getSummedTransactionsElements = (
     summedTransactions: SummedTransaction[]
   ) => {
-    console.log("Summed transcations:", summedTransactions);
-
     if (summedTransactions.length > 0) {
       console.log(summedTransactions);
       const allTransactionsComponents = summedTransactions.map(

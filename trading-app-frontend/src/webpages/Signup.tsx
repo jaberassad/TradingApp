@@ -83,9 +83,7 @@ const Signup = () => {
       } else if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-  
-      console.log(responseJSON);
-  
+    
       // Update session storage and navigate
       newUser.userID = responseJSON.userID;
       sessionStorage.setItem("active", JSON.stringify(true));

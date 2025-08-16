@@ -139,69 +139,32 @@ const generateRandomStockData = (
   return stockData.reverse(); // Return in chronological order
 };
 
-// const styles: { [key: string]: React.CSSProperties } = {
-//   scrollableContainer: {
-//     overflowX: "auto",
-//     whiteSpace: "nowrap",
-//     padding: "10px 0",
-//   },
-//   horizontalList: {
-//     display: "flex",
-//     listStyleType: "none",
-//     margin: 0,
-//     padding: 0,
-//   },
-//   listItem: {
-//     marginRight: "20px",
-//     padding: "15px",
-//     minWidth: "150px",
-//     backgroundColor: "#f0f0f0",
-//     borderRadius: "4px",
-//     cursor: "pointer",
-//     transition: "background-color 0.3s, transform 0.3s",
-//   },
-//   selectedListItem: {
-//     backgroundColor: "blue",
-//     color: "white",
-//   },
-//   chartContainer: {
-//     marginTop: "20px",
-//     width: "100%",
-//     maxWidth: "1200px",
-//     margin: "0 auto",
-//   },
-//   errorMessage: {
-//     color: "red",
-//     fontSize: "16px",
-//     margin: "10px 0",
-//     display: "block",
-//     textAlign: "center",
-//   },
-// };
 
 const TradingPage: React.FC = () => {
   const [buyNumShares, setBuyNumShares] = useState(0);
   const [sellNumShares, setSellNumShares] = useState(0);
   const [chartData, setChartData] = useState<any>(null);
-  const [selectedCompany, setSelectedCompany] = useState<string>("SPX"); // Track the selected company
+  const [selectedCompany, setSelectedCompany] = useState<string>("GSPC.INDX");
   const chartRef = useRef<any>(null);
   const [buyErrorMessage, setBuyErrorMessage] = useState<string | null>(null);
   const [sellErrorMessage, setSellErrorMessage] = useState<string | null>(null);
 
   const marketFunds: { [key: string]: string } = {
-    "S&P 500": "SPX",
+    "S&P 500": "GSPC.INDX",
     "Nasdaq 100": "NDX",
-    "Dow 30": "DJI",
-    "Nikkei 225": "N225",
-    "FTSE 100": "FTSE",
-    DAX: "DAX",
-    "CAC 40": "CAC",
-    "FTSE MIB": "MIB",
-    "IBEX 35": "IBEX",
-    "SSE Composite": "SSEC",
-    "Hang Seng": "HSI",
-    "Nifty 50": "NIFTY",
+    "Dow 30": "DJI.INDX",
+    "Amazon": "AMZN",
+    "Apple Inc": "AAPL",
+    "NVIDIA Corp": "NVDA",
+    "Oracle Corp": "ORCL",
+    "Boeing Company": "BA",
+    "IBM": "IBM",
+    "Microsoft": "MSFT",
+    "Pfizer Inc": "PFE",
   };
+
+
+
 
   const fetchFromApi = (companyName: string) => {
     setSelectedCompany(companyName);
@@ -209,18 +172,25 @@ const TradingPage: React.FC = () => {
     fetch(`${process.env.REACT_APP_API_URL}api/assets/${companyName}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.prices)
         if (data.prices && data.prices !== "[]") {
           data.prices = JSON.parse(data.prices);
+          data.dates = JSON.parse(data.dates);
+          const today = new Date();
+
+          const stockPoints = [];
+
+          for (let i = 0; i < data.prices.length; i++) {
+            stockPoints.push({
+              x: data.dates[i],
+              y: data.prices[i],
+            });
+          }
+
           setChartData({
-            labels: data.prices.map((item: StockData) => item.date),
             datasets: [
               {
                 label: companyName,
-                data: data.prices.map((item: StockData) => ({
-                  x: item.date,
-                  y: item.close,
-                })),
+                data: stockPoints,
                 borderColor: (context: any) => {
                   const chart = context.chart;
                   const { dataIndex } = context;
@@ -282,7 +252,7 @@ const TradingPage: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchFromApi("SPX");
+    fetchFromApi("GSPC.INDX");
 
     // Cleanup chart instance on unmount
     return () => {
@@ -294,7 +264,6 @@ const TradingPage: React.FC = () => {
 
   async function purchase(): Promise<void> {
     const json = sessionStorage.getItem("user");
-    console.log(json)
     let user: User;
     let id: number;
     if (json !== null) {
@@ -302,7 +271,6 @@ const TradingPage: React.FC = () => {
         chartData.datasets[0].data[chartData.datasets[0].data.length - 1].y;
       user = JSON.parse(json);
       id = user.userID;
-      console.log(user)
 
       // Format the date as 'YYYY-MM-DD'
       const formattedDate = new Date().toISOString().split("T")[0];
@@ -326,8 +294,6 @@ const TradingPage: React.FC = () => {
         }
       );
       if (response.status === 500) {
-        console.log( JSON.stringify(data))
-        console.log(response)
         setBuyErrorMessage(
           "Your current balance is insufficient to complete this transaction."
         );
@@ -340,9 +306,7 @@ const TradingPage: React.FC = () => {
         );
         setTimeout(() => {
           setBuyErrorMessage(null);
-        }, 5000);
-        console.log("Purchase successful", response.status);
-        
+        }, 5000);        
 
         // Updates user data in session storage
         const userData = sessionStorage.getItem("user");
@@ -382,8 +346,6 @@ const TradingPage: React.FC = () => {
         dateCreated: formattedDate, // Use 'dateCreated' to match your backend field
       };
 
-      console.log(transaction);
-
       fetch(`${process.env.REACT_APP_API_URL}api/transaction/sell`, {
         method: "POST",
         headers: {
@@ -406,8 +368,6 @@ const TradingPage: React.FC = () => {
             setTimeout(() => {
               setSellErrorMessage(null);
             }, 5000);
-            console.log(sellErrorMessage)
-            console.log("Sale successful", response.status);
 
             // Updates user data in session storage
             const userData = sessionStorage.getItem("user");
