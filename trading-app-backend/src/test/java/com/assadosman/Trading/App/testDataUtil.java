@@ -32,7 +32,7 @@ public class testDataUtil {
         return Transaction.builder()
                 .assetPrice(100.0)
                 .userID(1)
-                .assetName("CAC")
+                .assetName("AAPL")
                 .dateCreated(LocalDate.of(2024, 9, 2))
                 .transactionID(100)
                 .numOfAssets(1.0)

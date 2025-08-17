@@ -50,6 +50,24 @@ public class TransactionControllerIntegrationTest {
     }
 
     @Test
+    public void testSelling() throws Exception {
+        Transaction transaction = testDataUtil.createPurchaseA();
+        String transactionJson = objectMapper.writeValueAsString(transaction);
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/transaction/buy")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(transactionJson)
+        );
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.post("/api/transaction/buy")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(transactionJson)
+                )
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
     public void getUsersTransactions() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/transaction/1"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
