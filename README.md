@@ -42,11 +42,11 @@ Please make sure both the spring boot app and react app are running
 
 3. **Run the SpringBoot App and the React App Simultaneously macOs/Linux**
    ```bash
-   java -jar ../trading-app-backend/target/Trading-App-0.0.1-SNAPSHOT.jar & npm start
+   java -jar ../Trading-App-0.0.1-SNAPSHOT.jar & npm start
 
 3. **Run the SpringBoot App and the React App Simultaneously Windows**
    ```bash
-   start java -jar ..\trading-app-backend\target\Trading-App-0.0.1-SNAPSHOT.jar & npm start
+   start java -jar ..\Trading-App-0.0.1-SNAPSHOT.jar & npm start
 
 4.**Accessing the Website**
    Finally type this in your browser: http://localhost:3000/
