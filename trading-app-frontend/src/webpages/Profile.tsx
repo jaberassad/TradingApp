@@ -14,10 +14,22 @@ const Profile = () => {
   >([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [user, setUser] = useState<User | null>(null);
-  const [balance, setBalance] = useState(50000); // Starting balance
+  const [balance, setBalance] = useState(50000); 
 
   const navigate = useNavigate();
   const loggedIn = JSON.parse(sessionStorage.getItem("active") || "false");
+
+  useEffect(() => {
+    console.log(user)
+    fetch(`${process.env.REACT_APP_API_URL}api/user/${user?.email}`)
+      .then((response) => response.json())
+      .then((data) => { 
+        if (!user?.email) return
+        console.log(user)
+        setBalance(data.balance);
+      })
+    
+  }, [user]); 
 
   const fetchTransactions = async () => {
     try {
@@ -159,7 +171,7 @@ const Profile = () => {
           <strong>Email:</strong> {user.email}
         </div>
         <div className="profile-balance">
-          <strong>Current Balance:</strong> ${user.balance.toFixed(2)}
+          <strong>Current Balance:</strong> ${balance.toFixed(2)} 
         </div>
       </div>
 

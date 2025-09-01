@@ -52,7 +52,7 @@ const Signup = () => {
         console.log("Error in hashing Function");
         return;
       }
-  
+      console.log(hashedPasswordFromPromise)
       const newUser: User = {
         firstName: firstNameRef.current!.value,
         lastName: lastNameRef.current!.value,

@@ -187,12 +187,12 @@ const Portfolio: FC<PortfolioProps> = (props) => {
                 </span>{" "}
                 at{" "}
                 <span className="text-stone-600">
-                  ${currPrice}
+                  ${(currPrice / summedTransaction.numOfAssets).toFixed(2)}
                 </span>{" "}
                 a share, for a total value of{" "}
                 <span className=" text-green-900">
                   $
-                  {(currPrice * summedTransaction.numOfAssets)}
+                  {(currPrice)}
                 </span>
                 .
               </li>
