@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.assadosman.Trading.App.controllers.TransactionControllerIntegrationTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.936 s -- in com.assadosman.Trading.App.controllers.TransactionControllerIntegrationTest
