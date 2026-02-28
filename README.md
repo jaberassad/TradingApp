@@ -61,17 +61,17 @@ Please make sure both the spring boot app and react app are running
    - **User Authentication**: Navigate to `/login` or `/signup` to access user authentication features.
 
      
-![login page](Images/login_img) ![signup page](signup_img)
+![login page](Images/login_img) ![signup page](Images/signup_img)
 
 
    - **Share Trading**: Go to the `/` page to start buying or selling shares as well as look at charts for different stocks.
 
      
-![home page](chart_img)
+![home page](Images/chart_img)
 
 
    - **Transaction History**: View your transaction history on the `/profile` page.
 
 
-![portfolio](portfolio_img)  ![transaction history](transaction_history_img)
+![portfolio](Images/portfolio_img)  ![transaction history](Images/transaction_history_img)
 
