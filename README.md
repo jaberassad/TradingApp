@@ -61,7 +61,7 @@ Please make sure both the spring boot app and react app are running
    - **User Authentication**: Navigate to `/login` or `/signup` to access user authentication features.
 
      
-![login page](login_img) ![signup page](signup_img)
+![login page](Images/login_img) ![signup page](signup_img)
 
 
    - **Share Trading**: Go to the `/` page to start buying or selling shares as well as look at charts for different stocks.
